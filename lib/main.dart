@@ -8,19 +8,20 @@ import 'package:friends/routiong.dart';
 import 'package:uuid/uuid.dart';
 //import 'firebase_options.dart';
 import 'business_logic/cubit/cubit_observer.dart';
-late String intialRoute;
+import 'business_logic/news_cubit/auth_cubit.dart';
+//late String intialRoute;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //DioHelper.init();
   await Firebase.initializeApp(  );
   //initialize bloc observer
-  FirebaseAuth.instance.authStateChanges().listen((value) {
-    if (value != null ) {
-      intialRoute = '/homeScrean';
-    } else {
-      intialRoute = '/loginScreen';
-    }
-  });
+ // FirebaseAuth.instance.authStateChanges().listen((value) {
+ //   if (value != null ) {
+  //    intialRoute = '/homeScrean';
+  //  } else {
+   //   intialRoute = '/loginScreen';
+  //  }
+  //});
   //init bloc observer
   BlocOverrides.runZoned(() => runApp(const MyApp())
       ,blocObserver: MyBlocObserver());
@@ -33,14 +34,26 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
+    return MultiBlocProvider(
 
-        primarySwatch: Colors.blue,
+      providers: [
+        // BlocProvider<AuthCubit>(
+        //   create: (context) => AuthCubit(),
+        // ),
+        BlocProvider<AuthCubit>(
+          create: (context) => AuthCubit(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+
+          primarySwatch: Colors.blue,
+        ),
+        onGenerateRoute: RouteGenerator.generateRoute,
+        initialRoute: '/loginScreen',
+  //    initialRoute: intialRoute,
       ),
-      onGenerateRoute: RouteGenerator.generateRoute,
-      initialRoute: intialRoute,
     );
   }
 }
