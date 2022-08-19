@@ -9,50 +9,56 @@ Widget dividerSeparator() => Divider(
   color: MyColors.dark,
 );
 
-//<editor-fold desc='Default FormField'>
-// Widget defaultFormField({
-//   required TextEditingController controller,
-//   FocusNode? focusNode,
-//   required TextInputType keyboardType,
-//   String? Function(String?)? validate,
-//   VoidCallback? onTap,
-//   ValueChanged<String>? onSubmit,
-//   VoidCallback? suffixPressed,
-//   Function(String?)? onChanged,
-//   required IconData prefixIcon,
-//   double borderRadius = 20,
-//   required String hint,
-//   IconData? suffixIcon,
-//   bool isPassword = false,
-//   // required bool isRtl,
-// }) =>
-//     TextFormField(
-//       controller: controller,
-//       focusNode: focusNode,
-//       keyboardType: keyboardType,
-//       obscureText: isPassword,
-//       decoration: InputDecoration(
-//         hintText: hint,
-//         prefixIcon: Icon(
-//           prefixIcon,
-//           color: MyColors.light.withOpacity(0.8),
-//         ),
-//         suffixIcon: suffixIcon != null
-//             ? IconButton(
-//           onPressed: suffixPressed,
-//           icon: Icon(
-//             suffixIcon,
-//             color: MyColors.light.withOpacity(0.8),
-//           ),
-//         )
-//             : null,
-//       ),
-//       validator: validate,
-//       onChanged: onChanged,
-//       onTap: onTap,
-//       onFieldSubmitted: onSubmit,
-//       style: TextStyle(color: MyColors.light, letterSpacing: 1),
-//     );
+Widget defaultFormField({
+  required TextEditingController controller,
+  FocusNode? focusNode,
+  required TextInputType keyboardType,
+  String? Function(String?)? validate,
+  VoidCallback? onTap,
+  ValueChanged<String>? onSubmit,
+  VoidCallback? suffixPressed,
+  Function(String?)? onChanged,
+  required IconData prefixIcon,
+  double borderRadius = 20,
+   String? hint,
+  String? label,
+  IconData? suffixIcon,
+  bool isPassword = false,
+  // required bool isRtl,
+}) =>
+    TextFormField(
+
+      controller: controller,
+      focusNode: focusNode,
+      keyboardType: keyboardType,
+      obscureText: isPassword,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        labelText: label,
+        hintText: hint,
+        prefixIcon: Icon(
+          prefixIcon,
+          color: Colors.blue,
+        ),
+        suffixIcon: suffixIcon != null
+            ? IconButton(
+          onPressed: suffixPressed,
+          icon: Icon(
+            suffixIcon,
+            color: MyColors.light.withOpacity(0.8),
+          ),
+        )
+            : null,
+      ),
+      validator: validate,
+      onChanged: onChanged,
+      onTap: onTap,
+      onFieldSubmitted: onSubmit,
+      style: TextStyle(color:Colors.black,
+          letterSpacing: 1),
+    );
 // //</editor-fold>
 //
 // // Widget buildProgressIndicator() => Center(
@@ -127,20 +133,6 @@ Widget dividerSeparator() => Divider(
 //   ),
 //       (Route<dynamic> route) => false,
 // );
-
-void showToast({
-  required String msg,
-  required ToastStates state,
-  double fontSize = 16,
-  int seconds = 5,
-}) => Container();
-    // BotTost.showText(
-    //     text: msg,
-    //     duration: Duration(seconds: seconds),
-    //     contentColor: toastColor(state),
-    //     clickClose: true,
-    //     align: Alignment(0, -0.9));
-
 enum ToastStates { SUCCESS, ERROR, WARNING }
 
 Color toastColor(ToastStates state) {
@@ -153,7 +145,20 @@ Color toastColor(ToastStates state) {
       return Colors.yellow;
   }
 }
-
+//show toast using flutter toast
+void showToast({
+  required String msg,
+  required ToastStates state,
+  double fontSize = 16,
+  int seconds = 5,
+}) {
+  BotToast.showText(
+      text: msg,
+      duration: Duration(seconds: seconds),
+      contentColor: toastColor(state),
+      clickClose: true,
+      align: Alignment(0, -0.9));
+}
 // Widget myDivider() => Padding(
 //       padding: const EdgeInsetsDirectional.only(
 //         start: 20.0,

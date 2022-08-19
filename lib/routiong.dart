@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:friends/presentation/screens/screens/HomeScreen.dart';
 import 'package:friends/presentation/screens/screens/LoginScreen.dart';
+import 'package:friends/presentation/screens/screens/createPost.dart';
+import 'package:friends/presentation/screens/screens/edit_profile.dart';
 import 'package:friends/presentation/screens/screens/register_screen.dart';
 import 'package:friends/shared/constants/strings.dart';
 //import HomeScrean
@@ -11,9 +13,15 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
-      case loginScrean:
+      case createPost:
+        return MaterialPageRoute(builder: (_) =>
+            CreatePostScreen());
+        case loginScrean:
         return MaterialPageRoute(builder: (_) =>
             LoginScreen());
+        case editProfile:
+        return MaterialPageRoute(builder: (_) =>
+            EditProfileScreen());
   case registerScreen:
         return MaterialPageRoute(builder: (_) =>
             RegisterScreen());

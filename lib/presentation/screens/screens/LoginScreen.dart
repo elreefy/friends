@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:friends/business_logic/news_cubit/auth_cubit.dart';
 import 'package:friends/business_logic/news_cubit/auth_cubit.dart';
 import 'package:friends/shared/constants/my_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../data/cashe_helper.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -18,8 +21,9 @@ class LoginScreen extends StatelessWidget {
     //form key for the text fields
     final formKey = GlobalKey<FormState>();
     return BlocConsumer<AuthCubit, AuthState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is GoogleLoginSuccess) {
+          CashHelper.setString(key: 'uId', value: state.uId);
           Navigator.pushNamed(context, '/home');
         }
         if (state is GoogleLoginError) {
@@ -29,7 +33,14 @@ class LoginScreen extends StatelessWidget {
             ),
           );
         }
+        if (state is SignUpSuccess) {
+          //get uid from the state and save it in the cache helper
+          CashHelper.setString(key: 'uId', value: state.uId);
+          Navigator.pushNamed(context, '/home');
+        }
          if (state is FireBaseLoginSuccess) {
+           //get uid from the state and save it in the cache helper
+           CashHelper.setString(key: 'uId', value: state.uId);
            Navigator.pushNamed(context, '/home');
          }
           if (state is FireBaseLoginError) {
@@ -55,8 +66,12 @@ class LoginScreen extends StatelessWidget {
                   height: 320.0,
                   child: //container contain text and sub text
                   Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.deepPurpleAccent,
+                    //background image
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('lib/background.jpeg'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -139,6 +154,8 @@ class LoginScreen extends StatelessWidget {
                                 ),
                                 color: Colors.blue,
                                 onPressed: () {
+                                  //send verification code to the user email address using firebase
+                                 // cubit.sendVerificationCode();
                                   cubit.login(user: cubit.emailController.text,
                                       password: cubit.passwordController.text,
                                   );
@@ -146,6 +163,7 @@ class LoginScreen extends StatelessWidget {
                                   if (state is FireBaseLoginSuccess) {
                                     Navigator.pushNamed(context, '/home');
                                   }
+
                                 },
                                 child: Text(
                                   'Login',
@@ -196,7 +214,8 @@ class LoginScreen extends StatelessWidget {
                                 //inkwel text to register
                                 InkWell(
                                   onTap: () {
-                                    Navigator.pushNamed(
+                                    //navigate to register screen push with replacement
+                                    Navigator.pushReplacementNamed(
                                         context, '/register_screen');
                                   },
                                   child: Text(

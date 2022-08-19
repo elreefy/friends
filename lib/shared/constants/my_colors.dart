@@ -9,10 +9,11 @@ class MyColors {
   static const Color kPinkColor = Color(0xFFFE53BB);
   static const Color kCyanColor = Color(0xFF08F7FE);
   static const Color kGreenColor = Color(0xFF09FBD3);
+  static const Color kWhiteColor = Color(0xFFFFFFFF);
   static const Color kBlackColor = Color(0xFF19191B);
   static const Color kYellowColor = Color(0xFFF2A33A);
-  static const Color kWhiteColor = Color(0xFFFFFFFF);
   static const Color kGreyColor = Color(0xFF767680);
+  static const Color light = Color(0xFFF2F2F2);
 
   static Map<int, Color> swatch = {
     50: const Color(0x1Ae6aa29), //10%
@@ -27,5 +28,5 @@ class MyColors {
     900: const Color(0xffe6aa29), //100%
   };
 
-  static MaterialColor primaryColor = MaterialColor(0xffe6aa29, swatch);
+  static MaterialColor primaryColor = MaterialColor(0xFFFFFFFF, swatch);
 }
