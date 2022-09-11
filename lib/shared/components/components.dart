@@ -1,8 +1,49 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+//import 'package:get_time_ago/get_time_ago.dart';
 
 import '../constants/my_colors.dart';
+//show toast message
+void showToast({
+  required String text,
+  required ToastStates state,
+}) =>
+    BotToast.showText(
+      text: text,
+      contentColor: Colors.white,
+      textStyle: TextStyle(
+        color: Colors.black,
+        fontSize: 16.0,
+        fontWeight: FontWeight.w600,
+      ),
+      duration: Duration(seconds: 3),
+      contentPadding: EdgeInsets.all(10.0),
+      borderRadius: BorderRadius.circular(10.0),
+      align: Alignment.center,
+      backgroundColor: chooseToastColor(state),
+    );
+
+chooseToastColor(ToastStates state) {
+  Color color;
+
+  switch (state) {
+    case ToastStates.SUCCESS:
+      color = Colors.green;
+      break;
+    case ToastStates.ERROR:
+      color = Colors.red;
+      break;
+    case ToastStates.WARNING:
+      color = Colors.amber;
+      break;
+  }
+
+  return color;
+}
 
 Widget dividerSeparator() => Divider(
   thickness: 0.3,
@@ -145,19 +186,28 @@ Color toastColor(ToastStates state) {
       return Colors.yellow;
   }
 }
+String getNowDateTime (Timestamp dateTime) {
+  String date =DateFormat.yMd().format(dateTime.toDate()).toString();
+  String time = DateFormat.Hm().format(dateTime.toDate()).toString();
+  List<String> nowSeparated = [date,time];
+  String nowJoined = nowSeparated.join(' at ');
+  return nowJoined;
+}
+String time = DateTime.now().toString().split(' ').elementAt(1);
 //show toast using flutter toast
-void showToast({
+void showToast2({
   required String msg,
   required ToastStates state,
   double fontSize = 16,
-  int seconds = 5,
+  int seconds = 4,
 }) {
   BotToast.showText(
       text: msg,
       duration: Duration(seconds: seconds),
       contentColor: toastColor(state),
       clickClose: true,
-      align: Alignment(0, -0.9));
+    //  align: Alignment(0, -0.9)
+  );
 }
 // Widget myDivider() => Padding(
 //       padding: const EdgeInsetsDirectional.only(
@@ -289,3 +339,82 @@ Widget backButton(context) => Row(children: [
     ),
   ),
 ]);
+Widget defaultFormField2({
+  required context,
+  TextEditingController? controller,
+  dynamic hintText,
+  dynamic labelText,
+  IconData? prefix,
+  int maxLines = 1,
+  String? initialValue,
+  TextInputType? keyboardType,
+  Function(String)? onSubmit,
+  onChange,
+  onTap,
+  required String? Function(String?) validate,
+  bool isPassword = false,
+  bool enabled = true,
+  IconData? suffix,
+  suffixPressed,
+  MaterialColor? cursorColor,
+}) =>
+    Container(
+      child: TextFormField(
+        cursorColor: cursorColor,
+        controller: controller,
+        keyboardType: keyboardType,
+        obscureText: isPassword,
+        textAlign: TextAlign.start,
+        onFieldSubmitted: onSubmit,
+        enabled: enabled,
+        onChanged: onChange,
+        onTap: onTap,
+        validator: validate,
+        textCapitalization: TextCapitalization.words,
+        textAlignVertical: TextAlignVertical.center,
+        style: Theme.of(context).textTheme.bodyText1,
+        initialValue: initialValue,
+        maxLines: maxLines,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.all(20),
+          hintText: hintText,
+          labelText: labelText,
+          hintStyle: TextStyle(fontSize: 20, color: Colors.grey),
+          labelStyle: TextStyle(color: Colors.black),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15),borderSide: BorderSide(color: Colors.grey.shade300)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(15),borderSide: BorderSide(color: Colors.grey.shade300)),
+          prefixIcon: Icon(
+            prefix,
+            color: Colors.blueAccent,
+          ),
+          prefixStyle: TextStyle(color: Colors.blueAccent),
+          suffixStyle: TextStyle(color: Colors.blueAccent),
+          suffixIcon: suffix != null
+              ? IconButton(
+              onPressed: suffixPressed,
+              icon: Icon(suffix, color: Colors.blueAccent))
+              : null,
+        ),
+      ),
+    );
+Widget defaultButton({
+  required VoidCallback onTap,
+  required String text,
+  double? width = 400,
+}) =>
+    Container(
+      height: 50,
+      width: width,
+      child: MaterialButton(
+        color: Colors.blueAccent,
+        shape: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+        onPressed: onTap,
+        child: Text(
+          '$text',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 17,
+          ),
+        ),
+      ),
+    );

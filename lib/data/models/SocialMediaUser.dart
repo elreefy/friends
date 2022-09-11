@@ -45,7 +45,7 @@ class SocialMediaUser {
     this.profileImage,
     this.coverImage,
     this.bio,
-    this.website,
+    this.deviceToken,
     this.phone,
     this.address,
   });
@@ -57,7 +57,7 @@ class SocialMediaUser {
     profileImage = json['profileImage'];
     coverImage = json['coverImage'];
     bio = json['bio'];
-    website = json['website'];
+    deviceToken = json['website'];
     phone = json['phone'];
     address = json['address'];
   }
@@ -67,7 +67,7 @@ class SocialMediaUser {
   String? profileImage;
   String? coverImage;
   String? bio;
-  String? website;
+  String? deviceToken;
   String? phone;
   String? address;
 
@@ -79,7 +79,7 @@ class SocialMediaUser {
     data['profileImage'] = this.profileImage;
     data['coverImage'] = this.coverImage;
     data['bio'] = this.bio;
-    data['website'] = this.website;
+    data['website'] = this.deviceToken;
     data['phone'] = this.phone;
     data['address'] = this.address;
     return data;

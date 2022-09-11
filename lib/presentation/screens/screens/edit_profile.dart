@@ -1,15 +1,14 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:friends/shared/components/components.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../../business_logic/news_cubit/auth_cubit.dart';
+import '../../../data/cashe_helper.dart';
 import '../../../shared/constants/my_colors.dart';
-
+import '../../../shared/constants/strings.dart';
 class EditProfileScreen extends StatelessWidget {
    EditProfileScreen({Key? key}) : super(key: key);
  //var  ImagePicker picker = ImagePicker();
@@ -28,9 +27,6 @@ class EditProfileScreen extends StatelessWidget {
        print('no image');
      }
    }
-
-
-
   @override
   Widget build(BuildContext context)
   {
@@ -40,9 +36,9 @@ class EditProfileScreen extends StatelessWidget {
         // TODO: implement listener
       },
       builder: (context, state) {
-        AuthCubit.get(context).nameEditingController.text = AuthCubit.get(context).socialMediaUser!.email!;
-      //  AuthCubit.get(context).passwordEditingController.text = AuthCubit.get(context).socialMediaUser!.phone!;
-       AuthCubit.get(context).bioEditingController.text = AuthCubit.get(context).socialMediaUser!.bio!;
+    // AuthCubit.get(context).nameEditingController.text = AuthCubit.get(context).socialMediaUser!.name!;
+     //AuthCubit.get(context).passwordEditingController.text = AuthCubit.get(context).socialMediaUser!.phone!;
+     // AuthCubit.get(context).bioEditingController.text = AuthCubit.get(context).socialMediaUser!.bio!;
 
         return Scaffold(
           appBar: //appar contain retyrn back arrow and text edit profile screen and icon save
@@ -61,9 +57,14 @@ class EditProfileScreen extends StatelessWidget {
                 ),
                 onPressed: () {
                   AuthCubit.get(context).updateUser(
-                      bio: AuthCubit.get(context).bioEditingController.text,
-                      user: AuthCubit.get(context).nameEditingController.text,
-                      password: AuthCubit.get(context).passwordEditingController.text,
+                       bio: AuthCubit.get(context).bioEditingController.text,
+                       user: AuthCubit.get(context).nameEditingController.text,
+                       phone: AuthCubit.get(context).passwordEditingController.text,
+                  );
+                  //show toast
+                  showToast2(
+                    msg: 'Profile Updated Successfully',
+                    state: ToastStates.SUCCESS,
                   );
                 }
                 ,
@@ -86,7 +87,6 @@ class EditProfileScreen extends StatelessWidget {
                     .width,
                 color: Colors.white,
               ),
-              if(AuthCubit.get(context).coverImage==null)
               Padding(
                 padding: const EdgeInsets.only(
                   top: 20,
@@ -94,7 +94,12 @@ class EditProfileScreen extends StatelessWidget {
                   right: 20,
                 ),
                 child: Image(
-                  image: AssetImage('lib/background.jpeg'),
+                  image: //network image
+                  NetworkImage(
+                           AuthCubit
+                          .get(context)
+                          .socialMediaUser!.coverImage??firstCoverImage
+                  ),
                   width: double.infinity,
                   height: //height of the screen
                   MediaQuery
@@ -105,26 +110,6 @@ class EditProfileScreen extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              if(AuthCubit.get(context).coverImage!=null)
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 20,
-                    left: 20,
-                    right: 20,
-                  ),
-                  child: Image(
-                    image:FileImage(AuthCubit.get(context).coverImage!),
-                    width: double.infinity,
-                    height: //height of the screen
-                    MediaQuery
-                        .of(context)
-                        .size
-                        .height * .2,
-
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              if(AuthCubit.get(context).profileImage==null)
               Positioned(
                 top: MediaQuery
                     .of(context)
@@ -156,58 +141,13 @@ class EditProfileScreen extends StatelessWidget {
                   ),
                   child: CircleAvatar( //use image from network
                     backgroundImage: NetworkImage(
-                        '${AuthCubit
-                            .get(context)
-                            .socialMediaUser!
-                            .profileImage}'),
-                    // backgroundImage: AssetImage(
-                    //     'lib/background.jpeg'
-                    // ),
+                                 AuthCubit
+                                .get(context)
+                        .socialMediaUser!.profileImage??firstProfileImage
+                    ),
                   ),
                 ),
               ),
-
-              if(AuthCubit.get(context).profileImage!=null)
-                Positioned(
-                  top: MediaQuery
-                      .of(context)
-                      .size
-                      .height * .1,
-                  left: MediaQuery
-                      .of(context)
-                      .size
-                      .width * .325,
-                  child: Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * .35,
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .width * .35,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(.2),
-                          blurRadius: 10,
-                          spreadRadius: 5,
-                        ),
-                      ],
-                    ),
-                    child: CircleAvatar( //use image from network
-                      backgroundImage: FileImage(AuthCubit.get(context).profileImage!),
-                      // backgroundImage: AssetImage(
-                      //     'lib/background.jpeg'
-                      // ),
-                    ),
-                  ),
-                ),
-
-
-
               //column contain 3 default textformfield one for name and one for password and one for bio
               Positioned(
                 top: MediaQuery
@@ -228,32 +168,51 @@ class EditProfileScreen extends StatelessWidget {
                       .size
                       .height * .35,
                   child:
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    //user name
+                Form(
+                  key: AuthCubit.get(context).formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      //user name
+                      defaultFormField2(
+                        controller: AuthCubit.get(context).nameEditingController,
+                        //cursor color grey
+                        cursorColor: Colors.grey,
+                        keyboardType: TextInputType.text,
+                        validate: (String ) {
+                          if (String!.isEmpty) {
+                            return 'name must not be empty';
+                          }
+                        },
+                        context: context,
+                        prefix: Iconsax.user,
+                        labelText: 'User Name',
+                        hintText: AuthCubit.get(context).socialMediaUser!.name,
 
-                    defaultFormField(
-                      controller: AuthCubit.get(context).nameEditingController,
+                      ),
+                     //phone number
+                     //  defaultFormField(
+                     //    controller: AuthCubit.get(context).passwordEditingController,
+                     //      keyboardType: TextInputType.text,
+                     //      prefixIcon: Icons.lock,
+                     //   //  hint:  AuthCubit.get(context).socialMediaUser!.phone??'01097051812',
+                     //  ),
+                     // bio
+                      defaultFormField2(
+                        controller: AuthCubit.get(context).bioEditingController,
                         keyboardType: TextInputType.text,
-                        prefixIcon: Icons.person,
-                  //      hint: AuthCubit.get(context).socialMediaUser!.email!,
-
-                    ),
-                   //phone number
-                    defaultFormField(controller: AuthCubit.get(context).passwordEditingController,
-                        keyboardType: TextInputType.text,
-                        prefixIcon: Icons.lock,
-                       hint:  AuthCubit.get(context).passwordEditingController.text??'01097051812',
-                    ),
-                   // bio
-                    defaultFormField(
-                      controller: AuthCubit.get(context).bioEditingController,
-                        keyboardType: TextInputType.text,
-                        prefixIcon: Icons.person,
-                        hint: AuthCubit.get(context).bioEditingController.text??'write bioo',
-                    ),
-                  ],
+                        context: context,
+                        validate: (String ) {
+                          if (String!.isEmpty) {
+                            return 'bio must not be empty';
+                          }
+                        },
+                        prefix: Iconsax.info_circle,
+                        labelText: 'Bio',
+                        hintText:AuthCubit.get(context).socialMediaUser!.bio,
+                      ),
+                    ],
+                  ),
                 ),
                 ),
               ),
@@ -297,11 +256,22 @@ class EditProfileScreen extends StatelessWidget {
                         AuthCubit.get(context).uploadProfileImage(
                             image:
                         AuthCubit.get(context).profileImage!
-                        ),
-                      // AuthCubit.get(context).createNewPost(
-                      // post: 'zamalek ya 3i',
-                      // postImage:AuthCubit.get(context).profileImage!
-                      // ),
+                        ).then((value) => {
+                          AuthCubit.get(context).updateProfileImage(
+                            image: AuthCubit.get(context).profileImageUrl,
+                          ).whenComplete(() => {
+                          //AuthCubit.get(context).getProfileImage()
+                          }),
+                          //get user info
+                        //  AuthCubit.get(context).getUserInfo(uId!),
+
+                          //save the image in the cashe helper
+                          CashHelper.saveData(
+                            key: 'profileImage',
+                            value: AuthCubit.get(context).profileImageUrl,
+                          ),
+                        }),
+
                       });
                       // AuthCubit.get(context).create new post
 
@@ -349,7 +319,19 @@ class EditProfileScreen extends StatelessWidget {
                        AuthCubit.get(context).uploadCoverImage(
                            image:
                            AuthCubit.get(context).coverImage!
-                       ),
+                       ).then((value) {
+                          AuthCubit.get(context).updateCoverImage(
+                            image: AuthCubit.get(context).coverImageUrl,
+                          ).then((value) => {
+                            //get user info
+                            AuthCubit.get(context).getCoverImageImage(),
+                            //save the image in the cashe helper
+                            CashHelper.saveData(
+                              key: 'coverImage',
+                              value: AuthCubit.get(context).coverImageUrl,
+                            ),
+                          });
+                        }),
                      });
                     },
                   ),

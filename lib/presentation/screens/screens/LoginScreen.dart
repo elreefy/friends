@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:friends/business_logic/news_cubit/auth_cubit.dart';
 import 'package:friends/business_logic/news_cubit/auth_cubit.dart';
+import 'package:friends/shared/components/components.dart';
 import 'package:friends/shared/constants/my_colors.dart';
+import 'package:friends/shared/constants/strings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../data/cashe_helper.dart';
@@ -22,11 +24,32 @@ class LoginScreen extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) async {
+        //if state is login success show toast else show error
+        if (state is FireBaseLoginSuccess) {
+          showToast2(
+            msg: 'Login Success',
+            state: ToastStates.SUCCESS,
+          );
+
+        } else if (state is FireBaseLoginError) {
+          showToast2(
+            msg:  state.error,
+            state: ToastStates.ERROR,
+          );
+        }
         if (state is GoogleLoginSuccess) {
+          showToast2(
+            msg: 'Login Success',
+            state: ToastStates.SUCCESS,
+          );
           CashHelper.setString(key: 'uId', value: state.uId);
           Navigator.pushNamed(context, '/home');
         }
         if (state is GoogleLoginError) {
+          showToast2(
+            msg: state.error,
+            state: ToastStates.ERROR,
+          );
           Scaffold.of(context).showSnackBar(
             SnackBar(
               content: Text(state.error),
@@ -34,16 +57,26 @@ class LoginScreen extends StatelessWidget {
           );
         }
         if (state is SignUpSuccess) {
-          //get uid from the state and save it in the cache helper
-          CashHelper.setString(key: 'uId', value: state.uId);
+          showToast2(
+            msg: 'plz verify your email',
+            state: ToastStates.WARNING,
+          );
+          CashHelper.setString(key: 'uId', value:state.uId);
           Navigator.pushNamed(context, '/home');
         }
          if (state is FireBaseLoginSuccess) {
-           //get uid from the state and save it in the cache helper
+          showToast2(
+            msg: 'Login Success',
+            state: ToastStates.SUCCESS,
+          );
            CashHelper.setString(key: 'uId', value: state.uId);
            Navigator.pushNamed(context, '/home');
          }
           if (state is FireBaseLoginError) {
+          showToast2(
+            msg: state.error,
+            state: ToastStates.ERROR,
+          );
             Scaffold.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.error),
@@ -154,15 +187,12 @@ class LoginScreen extends StatelessWidget {
                                 ),
                                 color: Colors.blue,
                                 onPressed: () {
-                                  //send verification code to the user email address using firebase
-                                 // cubit.sendVerificationCode();
-                                  cubit.login(user: cubit.emailController.text,
+                                    cubit.login(
+                                      user: cubit.emailController.text,
                                       password: cubit.passwordController.text,
-                                  );
-                                  //navigate to home screen
-                                  if (state is FireBaseLoginSuccess) {
-                                    Navigator.pushNamed(context, '/home');
-                                  }
+                                    );
+                                    //showToast(text: , state: ToastStates.ERROR);
+                                 // cubit.sendVerificationCode();
 
                                 },
                                 child: Text(

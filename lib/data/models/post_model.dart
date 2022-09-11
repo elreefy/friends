@@ -5,19 +5,23 @@ class Post {
   String? postId;
   String? name;
   String? uId;
-  String? profilePicture;
+  String profilePicture = 'https://www.gstatic.com/webp/gallery/1.jpg';
   String? post;
   String? postImage;
   int? likes;
   int? comments;
-  String? date;
+  Timestamp? date;
   String? time;
   FieldValue? dateTime;
+  bool? isLiked;
+
+
+
   Post({
     this.postId,
     this.name,
     this.uId,
-    this.profilePicture,
+    required this.profilePicture,
     this.post,
     this.postImage,
     this.likes,
@@ -25,6 +29,7 @@ class Post {
     this.time,
     this.date,
     this.dateTime,
+    this.isLiked,
   });
 
   Post.fromJson(Map<String, dynamic>? json){
@@ -38,6 +43,8 @@ class Post {
     comments = json['comments'];
     time = json['time'];
     date = json['date'];
+    isLiked = json['isLiked'];
+
   }
 
   Map<String, dynamic> toMap (){
@@ -53,6 +60,7 @@ class Post {
       'time':time,
       'date': date,
       'dateTime': dateTime,
+      'isLiked': isLiked,
     };
   }
 }

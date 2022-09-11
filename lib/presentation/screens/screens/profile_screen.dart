@@ -1,12 +1,15 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:friends/shared/constants/strings.dart';
 import 'package:iconsax/iconsax.dart';
-
 import '../../../business_logic/news_cubit/auth_cubit.dart';
+import '../../../business_logic/news_cubit/social_cubit.dart';
+import '../../../shared/components/components.dart';
 import '../../../shared/constants/my_colors.dart';
-
 BlocConsumer buildProfileScreen(BuildContext context,socialCubit) {
   //return image of profile
   return BlocConsumer<AuthCubit, AuthState>(
@@ -17,19 +20,13 @@ BlocConsumer buildProfileScreen(BuildContext context,socialCubit) {
     var coverImage = AuthCubit.get(context).coverImage;
     return ConditionalBuilder(
       condition:
-      AuthCubit.get(context).socialMediaUser != null
-          || state is GoogleLoginSuccess
-          || state is FireBaseLoginSuccess
-          || state is SignUpSuccess
-          || state is UserCreateSuccess,
-      //or ,
+         AuthCubit.get(context).socialMediaUser != null,
         builder: (context )=>
           Container(
             //background image using asset image
             child: Stack(
               children: [
                 //background image using asset image
-
                 //circle avatar of profile image
                 Container(
                   height: MediaQuery
@@ -50,10 +47,8 @@ BlocConsumer buildProfileScreen(BuildContext context,socialCubit) {
                   ),
                   child: Image(
                     image:NetworkImage(
-                        '${AuthCubit
-                            .get(context)
-                            .socialMediaUser!
-                            .coverImage}'),
+                           AuthCubit
+                            .get(context).socialMediaUser!.coverImage??firstCoverImage),
                     width: double.infinity,
                     height: //height of the screen
                     MediaQuery
@@ -95,10 +90,9 @@ BlocConsumer buildProfileScreen(BuildContext context,socialCubit) {
                     ),
                     child: CircleAvatar( //use image from network
                       backgroundImage: NetworkImage(
-                          '${AuthCubit
-                              .get(context)
-                              .socialMediaUser!
-                              .profileImage}'),
+                          AuthCubit
+                              .get(context).
+                          socialMediaUser!.profileImage??firstProfileImage),
                       // backgroundImage: AssetImage(
                       //     'lib/background.jpeg'
                       // ),
@@ -128,14 +122,20 @@ BlocConsumer buildProfileScreen(BuildContext context,socialCubit) {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          'ahmed hossam',
+                          '${AuthCubit
+                              .get(context)
+                              .socialMediaUser
+                              ?.name??'reeefy'}',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          'computer science student',
+                          '${AuthCubit
+                              .get(context)
+                              .socialMediaUser
+                              ?.bio??'write bio'}',
                           style: TextStyle(
                             //sub title of the profile
                             fontSize: 15,
@@ -386,15 +386,11 @@ BlocConsumer buildProfileScreen(BuildContext context,socialCubit) {
                     ],
                   ),
                 ),
-
-
               ],
             ),
           ),
-
         fallback: (context) => Center(
           child: CircularProgressIndicator(),
-
         ),
       );
     }

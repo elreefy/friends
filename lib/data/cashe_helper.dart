@@ -33,12 +33,27 @@ class CashHelper {
       {required String key, required String value})  {
     return  sharedPreferences.setString(key, value);
   }
-  //get string
-  static String? getString({required String key}) {
-    return sharedPreferences.getString(key);
+  //get string future
+  static Future<String?> getString2({required String key}) async {
+    return await sharedPreferences.getString(key);
+  }
+  static dynamic getData({required String key}) {
+    return sharedPreferences.get(key);
   }
 //clear string
   static Future<bool>  clearString({required String key}) async {
   return await sharedPreferences.remove(key);
 }
+
+  static saveToken(String? deviceToken) {
+    return sharedPreferences.setString('deviceToken', deviceToken!);
+  }
+
+  static getString(String s) {
+    return sharedPreferences.getString(s);
+  }
+
+  static saveData({required String key, String? value}) {
+    return sharedPreferences.setString(key, value!);
+  }
 }

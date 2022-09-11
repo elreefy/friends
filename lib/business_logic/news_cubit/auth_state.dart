@@ -200,3 +200,365 @@ class GetAllUsersError extends AuthState {
   final String error;
   GetAllUsersError(this.error);
 }
+//  create SendMessageLoading state
+class SendMessageLoading extends AuthState {}
+//  create SendMessageSuccess state
+class SendMessageSuccess extends AuthState {}
+//  create SendMessageError state
+class SendMessageError extends AuthState {
+  final String error;
+  SendMessageError(this.error);
+}
+//  create GetMessagesLoading state
+class GetMessagesLoading extends AuthState {}
+//  create GetMessagesSuccess state
+
+class GetMessagesSuccess extends AuthState {
+  //final List<Message> messages;
+  //GetMessagesSuccess(this.messages);
+}
+//  create GetMessagesError state
+class GetMessagesError extends AuthState {
+  final String error;
+  GetMessagesError(this.error);
+}
+//  create GetAllMessagesLoading
+class GetAllMessagesLoading extends AuthState {}
+//  create GetAllMessagesSuccess state
+class GetAllMessagesSuccess extends AuthState {
+  //final List<Message> messages;
+  //GetAllMessagesSuccess(this.messages);
+}
+//  create GetAllMessagesError state
+class GetAllMessagesError extends AuthState {
+  final String error;
+  GetAllMessagesError(this.error);
+}
+//  create SubscribeToTopicLoading state
+class SubscribeToTopicLoading extends AuthState {}
+//  create SubscribeToTopicSuccess state
+class SubscribeToTopicSuccess extends AuthState {}
+//  create UnsubscribeToTopicLoading state
+class UnsubscribeToTopicLoading extends AuthState {}
+//  create UnsubscribeToTopicSuccess state
+class UnsubscribeToTopicSuccess extends AuthState {}
+//  create UnsubscribeToTopicError state
+class UnsubscribeToTopicError extends AuthState {
+  final String error;
+  UnsubscribeToTopicError(this.error);
+}
+//  create PostFcmTokenLoading state
+class PostFcmTokenLoading extends AuthState {}
+//  create PostFcmTokenSuccess state
+class PostFcmTokenSuccess extends AuthState {}
+//  create PostFcmTokenError state
+class PostFcmTokenError extends AuthState {
+  final String error;
+  PostFcmTokenError(this.error);
+}
+//  create SendNotificationLoading state
+class SendNotificationLoading extends AuthState {}
+//  create SendNotificationSuccess state
+class SendNotificationSuccess extends AuthState {}
+//  create SendNotificationError state
+class SendNotificationError extends AuthState {
+  final String error;
+  SendNotificationError(this.error);
+}
+//  create GetNotificationsLoading state
+class GetNotificationsLoading extends AuthState {}
+//  create GetNotificationsSuccess state
+class GetNotificationsSuccess extends AuthState {
+  //final List<Notification> notifications;
+  //GetNotificationsSuccess(this.notifications);
+}
+//  create GetNotificationsError state
+class GetNotificationsError extends AuthState {
+  final String error;
+  GetNotificationsError(this.error);
+}
+//  create GetAllNotificationsLoading state
+class GetAllNotificationsLoading extends AuthState {}
+//  create GetAllNotificationsSuccess state
+class GetAllNotificationsSuccess extends AuthState {
+  //final List<Notification> notifications;
+  //GetAllNotificationsSuccess(this.notifications);
+}
+//  create GetAllNotificationsError state
+class GetAllNotificationsError extends AuthState {
+  final String error;
+  GetAllNotificationsError(this.error);
+}
+//  create DeleteNotificationLoading state
+class DeleteNotificationLoading extends AuthState {}
+//  create DeleteNotificationSuccess state
+class DeleteNotificationSuccess extends AuthState {}
+//  create DeleteNotificationError state
+class DeleteNotificationError extends AuthState {
+  final String error;
+  DeleteNotificationError(this.error);
+}
+//  create GetAllNotificationsCountLoading state
+class GetAllNotificationsCountLoading extends AuthState {}
+//  create GetUnreadNotificationsCountLoading state
+class GetUnreadNotificationsCountLoading extends AuthState {}
+//  create GetUnreadNotificationsCountSuccess state
+class GetUnreadNotificationsCountSuccess extends AuthState {
+  //final int unreadNotificationsCount;
+  //GetUnreadNotificationsCountSuccess(this.unreadNotificationsCount);
+}
+//  create GetUnreadNotificationsCountError state
+class GetUnreadNotificationsCountError extends AuthState {
+  final String error;
+  GetUnreadNotificationsCountError(this.error);
+}
+//  create SendFriendRequestLoading state
+class SendFriendRequestLoading extends AuthState {}
+//  create SendFriendRequestSuccess state
+class SendFriendRequestSuccess extends AuthState {}
+//  create SendFriendRequestError state
+class SendFriendRequestError extends AuthState {
+  final String error;
+  SendFriendRequestError(this.error);
+}
+//  create GetFriendRequestsLoading state
+class GetFriendRequestsLoading extends AuthState {}
+//  create GetFriendRequestsSuccess state
+class GetFriendRequestsSuccess extends AuthState {
+  //final List<FriendRequest> friendRequests;
+  //GetFriendRequestsSuccess(this.friendRequests);
+}
+//  create GetFriendRequestsError state
+class GetFriendRequestsError extends AuthState {
+  final String error;
+  GetFriendRequestsError(this.error);
+}
+//  create AcceptFriendRequestLoading state
+class AcceptFriendRequestLoading extends AuthState {}
+//  create AcceptFriendRequestSuccess state
+class AcceptFriendRequestSuccess extends AuthState {}
+//  create AcceptFriendRequestError state
+class AcceptFriendRequestError extends AuthState {
+  final String error;
+  AcceptFriendRequestError(this.error);
+}
+//  create GetAllFriendRequestsSuccess state
+class GetAllFriendRequestsSuccess extends AuthState {
+  //final List<FriendRequest> friendRequests;
+  //GetAllFriendRequestsSuccess(this.friendRequests);
+}
+//  create GetAllFriendRequestsError state
+class GetAllFriendRequestsError extends AuthState {
+  final String error;
+  GetAllFriendRequestsError(this.error);
+}
+//  create GetAllFriendRequestsLoading state
+class GetAllFriendRequestsLoading extends AuthState {}
+//  create DeleteFriendRequestLoading state/
+class DeleteFriendRequestLoading extends AuthState {}
+//  create DeleteFriendRequestSuccess state
+class DeleteFriendRequestSuccess extends AuthState {}
+//  create DeleteFriendRequestError state
+class DeleteFriendRequestError extends AuthState {
+  final String error;
+  DeleteFriendRequestError(this.error);
+}
+//  create LikePostLoading state
+class LikePostLoading extends AuthState {}
+//  create LikePostSuccess state
+class LikePostSuccess extends AuthState {}
+//  create LikePostError state
+class LikePostError extends AuthState {
+  final String error;
+  LikePostError(this.error);
+}
+//  create UnlikePostLoading state
+class UnlikePostLoading extends AuthState {}
+//  create UnlikePostSuccess state
+class UnlikePostSuccess extends AuthState {}
+//  create UnlikePostError state
+class UnlikePostError extends AuthState {
+  final String error;
+  UnlikePostError(this.error);
+}
+//  create GetUserInfoLoading state
+class GetUserInfoLoading extends AuthState {}
+//  create GetUserInfoSuccess state
+class GetUserInfoSuccess extends AuthState {
+  //final User user;
+  //GetUserInfoSuccess(this.user);
+}
+//  create GetUserInfoError state
+
+class GetUserInfoError extends AuthState {
+  final String error;
+  GetUserInfoError(this.error);
+}
+//  create ResetPasswordLoading state
+class ResetPasswordLoading extends AuthState {}
+//  create ResetPasswordSuccess state
+class ResetPasswordSuccess extends AuthState {}
+//  create ResetPasswordError state
+class ResetPasswordError extends AuthState {
+  final String error;
+  ResetPasswordError(this.error);
+}
+//  create SearchForUserLoading state
+class SearchForUserLoading extends AuthState {}
+//  create SearchForUserSuccess state
+class SearchForUserSuccess extends AuthState {
+  final List<SocialMediaUser> users;
+  SearchForUserSuccess(this.users);
+}
+//  create SearchForUserError state
+class SearchForUserError extends AuthState {
+  final String error;
+  SearchForUserError(this.error);
+}
+//  create ToggleSearchIconState state
+class ToggleSearchIconState extends AuthState {}
+//  create GetFriendsPostsLoading state
+class GetFriendsPostsLoading extends AuthState {}
+//  create GetFriendsPostsSuccess state
+class GetFriendsPostsSuccess extends AuthState {
+  //final List<Post> posts;
+  //GetFriendsPostsSuccess(this.posts);
+}
+//  create GetFriendsPostsError state
+class GetFriendsPostsError extends AuthState {
+  final String error;
+  GetFriendsPostsError(this.error);
+}
+//  create GetFriendsRequestLoading state
+class GetFriendsRequestLoading extends AuthState {}
+//  create GetFriendsRequestSuccess state
+class GetFriendsRequestSuccess extends AuthState {
+  //final List<FriendRequest> friendRequests;
+  //GetFriendsRequestSuccess(this.friendRequests);
+}
+//  create GetFriendsRequestError state
+class GetFriendsRequestError extends AuthState {
+  final String error;
+  GetFriendsRequestError(this.error);
+}
+//  create .GetFriendsNameLoading state
+class GetFriendsNameLoading extends AuthState {}
+//  create GetFriendsNameSuccess state
+class GetFriendsNameSuccess extends AuthState {
+  //final List<User> friends;
+  //GetFriendsNameSuccess(this.friends);
+}
+//  create GetFriendsNameError state
+class GetFriendsNameError extends AuthState {
+  final String error;
+  GetFriendsNameError(this.error);
+}
+//  create CurrentIndexChanged state
+class CurrentIndexChanged extends AuthState {
+  final int index;
+  CurrentIndexChanged(this.index);
+}
+//  create UpdateProfileImageLoading state
+class UpdateProfileImageLoading extends AuthState {}
+//  create UpdateProfileImageSuccess state
+class UpdateProfileImageSuccess extends AuthState {}
+//  create UpdateProfileImageError state
+class UpdateProfileImageError extends AuthState {
+  final String error;
+  UpdateProfileImageError(this.error);
+}
+//  create UpdateCoverImageLoading state
+class UpdateCoverImageLoading extends AuthState {}
+//  create UpdateCoverImageSuccess state
+class UpdateCoverImageSuccess extends AuthState {}
+//  create UpdateCoverImageError state
+class UpdateCoverImageError extends AuthState {
+  final String error;
+  UpdateCoverImageError(this.error);
+}
+//  create GetLikesLoading state
+class GetLikesLoading extends AuthState {}
+//  create GetLikesSuccess state
+class GetLikesSuccess extends AuthState {
+  //final List<User> users;
+  //GetLikesSuccess(this.users);
+}
+//  create GetLikesError state
+class GetLikesError extends AuthState {
+  final String error;
+  GetLikesError(this.error);
+}
+//  create SetAllPostsIsLikedToFalseLoading state
+class SetAllPostsIsLikedToFalseLoading extends AuthState {}
+//  create SetAllPostsIsLikedToFalseSuccess state
+class SetAllPostsIsLikedToFalseSuccess extends AuthState {}
+//  create SetAllPostsIsLikedToFalseError state
+class SetAllPostsIsLikedToFalseError extends AuthState {
+  final String error;
+  SetAllPostsIsLikedToFalseError(this.error);
+}
+//  create GetPendingFriendRequestsCountLoading state
+class GetPendingFriendRequestsCountLoading extends AuthState {}
+//  create GetPendingFriendRequestsCountSuccess state
+class GetPendingFriendRequestsCountSuccess extends AuthState {
+  //final int count;
+  //GetPendingFriendRequestsCountSuccess(this.count);
+}
+//  create GetPendingFriendRequestsCountError state
+class GetPendingFriendRequestsCountError extends AuthState {
+  final String error;
+  GetPendingFriendRequestsCountError(this.error);
+}
+//  create GetProfileAndCoverLoading state
+class GetProfileAndCoverLoading extends AuthState {}
+//  create GetProfileAndCoverSuccess state
+class GetProfileAndCoverSuccess extends AuthState {
+  //final String profileImage;
+  //final String coverImage;
+  //GetProfileAndCoverSuccess(this.profileImage, this.coverImage);
+}
+//  create GetProfileAndCoverError state
+class GetProfileAndCoverError extends AuthState {
+  final String error;
+  GetProfileAndCoverError(this.error);
+}
+//  create GetValueProfileAndCoverError state
+class GetValueProfileAndCoverError extends AuthState {
+  final String error;
+  GetValueProfileAndCoverError(this.error);
+}
+//  create GetProfileAndCoverLoading state
+class GetValueProfileAndCoverCacheError extends AuthState {}
+//  create GetProfileAndCoverSuccess state
+class GetValueProfileAndCoverSuccess extends AuthState {
+  //final String profileImage;
+  //final String coverImage;
+  //GetProfileAndCoverSuccess(this.profileImage, this.coverImage);
+}
+//  create GetProfileImageLoading state
+class GetProfileImageLoading extends AuthState {}
+//  create GetProfileImageSuccess state
+class GetProfileImageSuccess extends AuthState {
+  //final String profileImage;
+  //GetProfileImageSuccess(this.profileImage);
+}
+//  create GetProfileImageError state
+class GetProfileImageError extends AuthState {
+  final String error;
+  GetProfileImageError(this.error);
+}
+//  create GetCoverImageLoading state
+class GetCoverImageLoading extends AuthState {}
+//  create GetCoverImageSuccess state
+class GetCoverImageSuccess extends AuthState {
+  //final String coverImage;
+  //GetCoverImageSuccess(this.coverImage);
+}
+//  create GetCoverImageError state
+class GetCoverImageError extends AuthState {
+  final String error;
+  GetCoverImageError(this.error);
+}
+
+
+

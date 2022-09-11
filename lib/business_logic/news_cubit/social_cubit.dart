@@ -17,37 +17,25 @@ import '../../presentation/screens/screens/nofication.dart';
 part 'social_state.dart';
 
 class SocialCubit extends Cubit<SocialState> {
-  var textEditingController= TextEditingController();
-  var commentEditingController = TextEditingController();
+
    //currentIndex for navigation bar
-  int currentIndex = 0;
+
   SocialCubit() : super(SocialInitial());
 
 
   static SocialCubit get(context) => BlocProvider.of(context);
  //upload profile image to firebase storage
-
-
-
-
-
-
-
   //List of widgets Screens for the upper navigation bar
   final List<Widget> upperNavigationBarScreens = [
-    // HomeScreen(),
-    // FriendsScreen(),
-    // MessangerScreen(),
-    // ProfileSccreen(),
-    // NotificationScreen(),
-    // SettingsScreen(),
+     HomeScreen(),
+     // FriendsScreen(),
+     // MessangerScreen(),
+     // ProfileSccreen(),
+     // NotificationScreen(),
+     // SettingsScreen(),
   ];
 //Change the current index of the upper navigation bar
-  void changeCurrentIndex(int index) {
-    currentIndex = index;
-    print(currentIndex);
-    emit(CurrentIndexChanged(currentIndex: currentIndex));
-  }
+
 
 
   //Todo: get user data
@@ -75,6 +63,7 @@ class SocialCubit extends Cubit<SocialState> {
       emit(SendVerificationCodeError(error.toString()));
     });
   }
+
 
 }
 

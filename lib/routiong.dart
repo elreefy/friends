@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:friends/data/models/SocialMediaUser.dart';
 import 'package:friends/presentation/screens/screens/HomeScreen.dart';
 import 'package:friends/presentation/screens/screens/LoginScreen.dart';
+import 'package:friends/presentation/screens/screens/MessangerDetailsScreen.dart';
+import 'package:friends/presentation/screens/screens/about-us-screen.dart';
 import 'package:friends/presentation/screens/screens/createPost.dart';
 import 'package:friends/presentation/screens/screens/edit_profile.dart';
+import 'package:friends/presentation/screens/screens/friend_profile_screen.dart.dart';
 import 'package:friends/presentation/screens/screens/register_screen.dart';
+import 'package:friends/presentation/screens/screens/reset_passsword.dart';
+import 'package:friends/presentation/screens/screens/search-screen.dart';
+import 'package:friends/presentation/screens/screens/splash_screen.dart';
 import 'package:friends/shared/constants/strings.dart';
 //import HomeScrean
 
@@ -16,6 +23,11 @@ class RouteGenerator {
       case createPost:
         return MaterialPageRoute(builder: (_) =>
             CreatePostScreen());
+        case messangerDetailsScreen:
+        return MaterialPageRoute(builder: (_) =>
+            MessangerDetailsScreen(
+              user: args,
+            ));
         case loginScrean:
         return MaterialPageRoute(builder: (_) =>
             LoginScreen());
@@ -28,10 +40,27 @@ class RouteGenerator {
         case home:
         return MaterialPageRoute(builder: (_) =>
             HomeScreen());
+        case resetPassword:
+        return MaterialPageRoute(builder: (_) =>
+            ResetPasswordScreen());
+        case aboutUs:
+        return MaterialPageRoute(builder: (_) =>
+            AboutMe());
+        case search:
+        return MaterialPageRoute(builder: (_) =>
+            SearchScreen());
 
-        return _errorRoute();
+        case myCustomWidget:
+        return MaterialPageRoute(builder: (_) =>
+            SplashScreen());
+        case userProfile:
+          final SocialMediaUser args = settings.arguments as SocialMediaUser;
+         return MaterialPageRoute(builder: (_) =>
+             FriendProfileScreen(
+               userModel: args,
+            ));
       default:
-      // If there is no such named route in the switch statement, e.g. /third
+
         return _errorRoute();
     }
   }

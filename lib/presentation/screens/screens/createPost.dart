@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:friends/shared/constants/strings.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../business_logic/news_cubit/auth_cubit.dart';
@@ -43,13 +44,23 @@ class CreatePostScreen extends StatelessWidget {
                     AuthCubit.get(context).createNewPost(
                       post: AuthCubit.get(context).postController.text,
                       postImage:AuthCubit.get(context).postImage!,
-
-                      //=null?AuthCubit.get(context).postImage!:null,
-                    );
+                      name:AuthCubit.get(context).socialMediaUser?.name??'reeefy',
+                      senderId: uId!,
+                    ).then((value) {
+                      AuthCubit.get(context).postController.clear();
+                      AuthCubit.get(context).postImage = null;
+                      Navigator.pop(context);
+                    });
                   } else {
                     AuthCubit.get(context).uploadText(
+                      name://current user name
+                      AuthCubit.get(context).socialMediaUser?.name??'reeefy',
                       post: AuthCubit.get(context).postController.text,
-                    );
+                      senderId: uId,
+                    ).then((value) {
+                      AuthCubit.get(context).postController.clear();
+                      Navigator.pop(context);
+                    });
                   }
 
                 },
@@ -62,6 +73,13 @@ class CreatePostScreen extends StatelessWidget {
             child: Column(
               children: [
                 //row contain circle avatar whic is the profile picture of the user and the name of the user
+                //if state is CreateNewPostLoading show liner progress indicator
+                if(state is CreateNewPostLoading
+                    || state is UploadTextLoading)
+                   Padding(
+                     padding: const EdgeInsets.only(top: 25.0),
+                     child: LinearProgressIndicator(color: Colors.blue,),
+                   ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Row(
@@ -71,12 +89,12 @@ class CreatePostScreen extends StatelessWidget {
                                 AuthCubit
                                 .get(context)
                                 .socialMediaUser!
-                                .profileImage!
+                                .profileImage??firstProfileImage
                         ),
                         radius: 30,
                       ),
                       SizedBox(width: 10,),
-                      Text('John Doe',
+                      Text(AuthCubit.get(context).socialMediaUser!.name??'reeefy',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -180,6 +198,8 @@ class CreatePostScreen extends StatelessWidget {
                               //     postImage:AuthCubit.get(context).profileImage!
                               // ),
                             });
+                              //go to homeScreen
+
                             },
                             child: Row(
                               children: [

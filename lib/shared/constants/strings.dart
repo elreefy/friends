@@ -7,6 +7,15 @@ const String loginScrean = '/loginScreen';
 const String home = '/home';
 const String Otp = '/otp_screen';
 const String editProfile = '/editProfile';
+const String resetPassword = '/resetPassword';
+const String aboutUs = '/aboutUs';
+const String search = '/search';
 const String createPost = '/createPost';
+const String myCustomWidget = '/MyCustomWidget';
+const String userProfile = '/userProfile';
+
+const String messangerDetailsScreen = '/messangerDetailsScreen';
+ String firstProfileImage =  'https://i.pinimg.com/736x/68/a5/aa/68a5aa104457ecac4d4136285a830e3e.jpg';
+     String firstCoverImage = 'https://www.gstatic.com/webp/gallery/1.jpg';
  String? uId ;
  bool isVerifcationSend = false;

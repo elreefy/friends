@@ -8,6 +8,8 @@ class RegisterScreen extends StatelessWidget {
   //emaail controoler and password controller
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -115,6 +117,7 @@ class RegisterScreen extends StatelessWidget {
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 30),
                                 child: TextField(
+                                  controller: userNameController,
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
                                       Icons.person,
@@ -158,6 +161,7 @@ class RegisterScreen extends StatelessWidget {
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 30),
                                 child: TextField(
+                                  controller: phoneNumberController,
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
                                       Icons.phone,
@@ -208,8 +212,11 @@ class RegisterScreen extends StatelessWidget {
                                   color: Colors.blue,
                                   onPressed: () {
                                     cubit.signUp(
-                                      user: emailController.text,
-                                     password:  passwordController.text,
+                                             user:emailController.text,
+                                         password:passwordController.text,
+                                         userName:userNameController.text,
+                                      phoneNumber:phoneNumberController.text,
+
                                     );
                                     //TODO:
                                     // pu

@@ -1,110 +1,39 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:friends/business_logic/news_cubit/auth_cubit.dart';
-import 'package:friends/business_logic/news_cubit/auth_cubit.dart';
-import 'package:friends/business_logic/news_cubit/social_cubit.dart';
-import 'package:friends/shared/constants/strings.dart';
+import 'package:friends/data/models/SocialMediaUser.dart';
 import 'package:iconsax/iconsax.dart';
-
+import '../../../business_logic/news_cubit/auth_cubit.dart';
+import '../../../business_logic/news_cubit/social_cubit.dart';
 import '../../../shared/components/components.dart';
-import '../../../shared/constants/my_colors.dart';
+import '../../../shared/constants/strings.dart';
 
-buildHomeScreen({
-  required BuildContext context,
-  width,
-  required AuthCubit authCubit,
+ buildMyPosts(
+  context,
+  SocialMediaUser user,
+) {
+  return createMyFaceBookPost(context,user);
 }
-    ) {
-  return Card(
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        elevation: 8,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 26,
-                    backgroundImage: //png image using imag.assets
-                    NetworkImage(
-                          AuthCubit
-                              .get(context)
-                              .socialMediaUser!.profileImage??firstProfileImage
-                      ),
 
-                  ),
-                  Container(
-                    width: width*.7,
-                    child: TextField(
-                      controller: authCubit.textEditingController,
-                      decoration: InputDecoration(
-                        hintText: 'What is on your mind?',
-                        //remove the border of the text field
-                        border: InputBorder.none,
-                      ),
-                      onTap: () {
-                        //navigete to create new post screen using pushNamed
-                        Navigator.pushNamed(context, '/createPost');
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Icon(Iconsax.camera,
-                    color: Colors.blue,
-                  ),
-                  Icon(Iconsax.gallery,
-                    color: MyColors.redAccent,
-                  ),
-                  Icon(Iconsax.document,
-                    color: Colors.green,
-                  ),
-
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-      //list view sepereated contain the posts
-      // Expanded(
-      //     child:createFaceBookPost(context)
-      // ),
-
-}
-buildPost(context, ) {
-  return createFaceBookPost(context);
-}
-//build the post with the image and the text field 
-createFaceBookPost(BuildContext context) {
+//build the post with the image and the text field
+//      AuthCubit.get(context).geMyPosts(uId!) ;
+createMyFaceBookPost(BuildContext context,SocialMediaUser user) {
   final height = MediaQuery.of(context).size.height;
   final width = MediaQuery.of(context).size.width;
-  return BlocConsumer<AuthCubit, AuthState>(
-  listener: (context, state) {
-    // TODO: implement listener
-  },
-  builder: (context, state) {
-    return ConditionalBuilder(
-      condition: AuthCubit.get(context).posts.length > 0,
-      fallback: (context) => Center(child: CircularProgressIndicator()),
-      builder: (context) =>ListView.builder(
+  return Builder(
+builder: (context) {
+       AuthCubit.get(context).geMyPosts(user.uid!) ;
+  return  BlocConsumer<AuthCubit, AuthState>(
+    listener: (context, state) {
+      // TODO: implement listener
+    },
+     builder: (context, state) {
+      return ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: AuthCubit.get(context).posts.length,
+        itemCount: AuthCubit.get(context).myPosts.length,
         itemBuilder: (context, index) {
-          bool isLiked=AuthCubit.get(context).posts[index].isLiked!;
+          bool isLiked = AuthCubit.get(context).myPosts[index].isLiked!;
           {
             return Card(
               clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -124,18 +53,12 @@ createFaceBookPost(BuildContext context) {
                             height: .1 * height,
                             width: .1 * width,
                             child: Image(
-                              image: NetworkImage(
-                                  AuthCubit
-                                      .get(context)
-                                      .posts[index].profilePicture
-                              ),
+                              image: NetworkImage(AuthCubit.get(context)
+                                  .myPosts[index]
+                                  .profilePicture),
                               width: double.infinity,
                               height: //height of the screen
-                              MediaQuery
-                                  .of(context)
-                                  .size
-                                  .height * .2,
-
+                              MediaQuery.of(context).size.height * .2,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -146,19 +69,20 @@ createFaceBookPost(BuildContext context) {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text( //current user name
-                                AuthCubit
-                                    .get(context)
-                                    .posts[index].name ?? 'reeefy',
+                              Text(
+                                //current user name
+                                AuthCubit.get(context).myPosts[index].name ??
+                                    'reeefy',
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text( //post date time getNowDateTime(AuthCubit.get(context).posts[index].dateTime)
-                                getNowDateTime(AuthCubit
-                                    .get(context)
-                                    .posts[index].date!),
+                              Text(
+                                //post date time getNowDateTime(AuthCubit.get(context).myPosts[index].dateTime)
+                                getNowDateTime(AuthCubit.get(context)
+                                    .myPosts[index]
+                                    .date!),
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -166,7 +90,6 @@ createFaceBookPost(BuildContext context) {
                               ),
                             ],
                           ),
-
                         ],
                       ),
                     ),
@@ -176,16 +99,14 @@ createFaceBookPost(BuildContext context) {
                     //text of the post
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          child: Text(AuthCubit
-                              .get(context)
-                              .posts[index].post!,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      child: Container(
+                        height: .1 * height,
+                        width: width,
+                        child: Text(
+                          AuthCubit.get(context).myPosts![index].post!,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -194,18 +115,17 @@ createFaceBookPost(BuildContext context) {
                       height: .02 * height,
                     ),
                     //psot image
-                    if(AuthCubit
-                        .get(context)
-                        .posts![index].postImage != null)
+                    if (AuthCubit.get(context).myPosts![index].postImage !=
+                        null)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Container(
                           height: .3 * height,
                           width: width,
                           child: //use image network to get the image from the url of the post
-                          Image.network(AuthCubit
-                              .get(context)
-                              .posts![index].postImage!),
+                          Image.network(AuthCubit.get(context)
+                              .myPosts![index]
+                              .postImage!),
                         ),
                       ),
                     //row contain number of likes  and number of comments with icons
@@ -215,45 +135,48 @@ createFaceBookPost(BuildContext context) {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Container(
-
                             child: Row(
-
                               children: <Widget>[
                                 IconButton(
                                   onPressed: () {
                                     // AuthCubit.get(context).getPostLikesCount(
-                                    //     postId: AuthCubit.get(context).posts![index].postId!);
+                                    //     postId: AuthCubit.get(context).myPosts![index].postId!);
                                     // AuthCubit.get(context)
                                     //     .createPostLike(
-                                    //     postId:'${AuthCubit.get(context).posts[index].postId}'
+                                    //     postId:'${AuthCubit.get(context).myPosts[index].postId}'
                                     // );
-                                    if (AuthCubit
-                                        .get(context)
-                                        .posts[index].isLiked == false)
+                                    if (AuthCubit.get(context)
+                                        .myPosts[index]
+                                        .isLiked ==
+                                        false)
                                       AuthCubit.get(context).likePost(
-                                          postId: AuthCubit
-                                              .get(context)
-                                              .posts![index].postId!
-                                      );
-                                    if (AuthCubit
-                                        .get(context)
-                                        .posts[index].isLiked == true)
+                                          postId: AuthCubit.get(context)
+                                              .myPosts![index]
+                                              .postId!);
+                                    if (AuthCubit.get(context)
+                                        .myPosts[index]
+                                        .isLiked ==
+                                        true)
                                       AuthCubit.get(context).unlikePost(
-                                          postId: AuthCubit
-                                              .get(context)
-                                              .posts![index].postId!
-                                      );
+                                          postId: AuthCubit.get(context)
+                                              .myPosts![index]
+                                              .postId!);
                                   },
-                                  icon: isLiked == false ? Icon(Iconsax.heart,
+                                  icon: isLiked == false
+                                      ? Icon(
+                                    Iconsax.heart,
                                     color: Colors.red,
-                                  ) : Icon(Iconsax.heart5,
+                                  )
+                                      : Icon(
+                                    Iconsax.heart5,
                                     color: Colors.red,
                                   ),
                                 ),
-
-                                Text(AuthCubit
-                                    .get(context)
-                                    .posts![index].likes.toString(),
+                                Text(
+                                  AuthCubit.get(context)
+                                      .myPosts![index]
+                                      .likes
+                                      .toString(),
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -276,11 +199,9 @@ createFaceBookPost(BuildContext context) {
                               CircleAvatar(
                                 radius: 20,
                                 backgroundImage: //network image
-                                NetworkImage(
-                                    AuthCubit
-                                        .get(context)
-                                        .posts[index].profilePicture
-                                ),
+                                NetworkImage(AuthCubit.get(context)
+                                    .myPosts[index]
+                                    .profilePicture),
                               ),
                               SizedBox(
                                 width: .03 * width,
@@ -288,8 +209,7 @@ createFaceBookPost(BuildContext context) {
                               Container(
                                 width: width * .4,
                                 child: TextField(
-                                  controller: AuthCubit
-                                      .get(context)
+                                  controller: AuthCubit.get(context)
                                       .commentEditingController,
                                   decoration: InputDecoration(
                                     hintText: 'write a comment...',
@@ -302,16 +222,21 @@ createFaceBookPost(BuildContext context) {
                           SizedBox(
                             width: .04 * width,
                           ),
-                          Spacer(),
-                          isLiked == false ? Icon(Iconsax.heart,
+                          isLiked == false
+                              ? Icon(
+                            Iconsax.heart,
                             color: Colors.red,
-                          ) : Icon(Iconsax.heart5,
+                          )
+                              : Icon(
+                            Iconsax.heart5,
                             color: Colors.red,
                           ),
                           //text for number of comments
-                          Text(AuthCubit
-                              .get(context)
-                              .posts![index].likes.toString(),
+                          Text(
+                            AuthCubit.get(context)
+                                .myPosts![index]
+                                .likes
+                                .toString(),
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -321,11 +246,13 @@ createFaceBookPost(BuildContext context) {
                             width: .02 * width,
                           ),
 
-                          Icon(Iconsax.share,
+                          Icon(
+                            Iconsax.share,
                             color: Colors.blue,
                           ),
                           //text for number of shares
-                          Text('0',
+                          Text(
+                            '0',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -340,8 +267,9 @@ createFaceBookPost(BuildContext context) {
             );
           }
         },
-      ) ,
-    );
-  },
-);
+      );
+    },
+  );
+   },
+  );
 }
