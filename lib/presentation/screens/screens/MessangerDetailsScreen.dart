@@ -7,7 +7,9 @@ import '../../../data/models/SocialMediaUser.dart';
 
 class MessangerDetailsScreen extends StatelessWidget {
   final  user;
-  const MessangerDetailsScreen({Key? key,required this.user}) : super(key: key);
+  final  name;
+  final  image;
+  const MessangerDetailsScreen({Key? key,required this.user, this.name, this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +29,12 @@ class MessangerDetailsScreen extends StatelessWidget {
                     CircleAvatar(
                       radius: 25,
                       backgroundImage: NetworkImage(//network image of user profile image
-                          AuthCubit.get(context).profileImageUrl??'https://www.gstatic.com/webp/gallery/1.jpg'),
+                          image??'https://www.gstatic.com/webp/gallery/1.jpg'),
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.05,
                     ),
-                    Text('Hello',
+                    Text(name,
                         style: TextStyle(
                           fontSize: 20,
                         ))
@@ -42,9 +44,7 @@ class MessangerDetailsScreen extends StatelessWidget {
               body: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.03,
-                  ),
+                  SizedBox(height: 20,),
                   //bzher message list hena
                   Expanded(
                     //   width: MediaQuery.of(context).size.width,

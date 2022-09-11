@@ -24,7 +24,11 @@ buildMessangerScreen(BuildContext context) {
                  // BlocProvider.of<AuthCubit>(context).getUserPosts(
                 //      AuthCubit.get(context).users[index].uid);
                   Navigator.pushNamed(context, '/messangerDetailsScreen',
-                      arguments: AuthCubit.get(context).users[index].uid);
+                      arguments:{
+                        'user': AuthCubit.get(context).users[index].uid,
+                         'name': AuthCubit.get(context).users[index].name,
+                        'image': AuthCubit.get(context).users[index].profileImage,
+                      });
                 },
                 child: ListTile(
                   leading: CircleAvatar(

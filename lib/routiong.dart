@@ -24,9 +24,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) =>
             CreatePostScreen());
         case messangerDetailsScreen:
+          final  args = settings.arguments as Map<String,dynamic>;
         return MaterialPageRoute(builder: (_) =>
             MessangerDetailsScreen(
-              user: args,
+              user: args['user'],
+              name: args['name'],
+              image: args['image'],
             ));
         case loginScrean:
         return MaterialPageRoute(builder: (_) =>

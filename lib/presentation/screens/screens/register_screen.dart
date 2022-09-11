@@ -218,11 +218,6 @@ class RegisterScreen extends StatelessWidget {
                                       phoneNumber:phoneNumberController.text,
 
                                     );
-                                    //TODO:
-                                    // pu
-
-
-
                                   },
                                   child: Text(
                                     'Sign UP',
@@ -252,7 +247,7 @@ class RegisterScreen extends StatelessWidget {
                                   //text sign in using inkwell to navigate to login screen
                                   InkWell(
                                     onTap: () {
-                                      Navigator.pushNamed(context, '/login_screen');
+                                      Navigator.pushNamed(context, '/loginScreen');
 
                                     },
                                     child: Text(
