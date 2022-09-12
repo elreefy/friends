@@ -1,16 +1,14 @@
-# friends
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+A social app to communiacte with your friends
+![WhatsApp Image 2022-09-12 at 4 02 25 PM (2)](https://user-images.githubusercontent.com/100224276/189676233-f545c0fe-1398-46f7-98eb-783b64ba2785.jpeg)
+![WhatsApp Image 2022-09-12 at 4 02 25 PM (1)](https://user-images.githubusercontent.com/100224276/189676263-6c80b252-359f-4879-b481-1a1cea411496.jpeg)
+![WhatsApp Image 2022-09-12 at 4 02 25 PM](https://user-images.githubusercontent.com/100224276/189676715-a1322dee-2a4b-4913-9b59-e77623caed4e.jpeg)
+![WhatsApp Image 2022-09-12 at 4 02 26 PM (2)](https://user-images.githubusercontent.com/100224276/189676721-7e4b7b2e-6453-4626-9ff3-db4c80206a1f.jpeg)
+![WhatsApp Image 2022-09-12 at 4 02 26 PM (1)](https://user-images.githubusercontent.com/100224276/189676741-3bae28cd-760d-478f-8536-6679bdffe783.jpeg)
+![WhatsApp Image 2022-09-12 at 4 02 26 PM](https://user-images.githubusercontent.com/100224276/189676745-a98665b3-cade-4997-9c9b-4b14bb829475.jpeg)
+![WhatsApp Image 2022-09-12 at 4 02 29 PM (3)](https://user-images.githubusercontent.com/100224276/189676752-22b6eff1-b571-4554-9051-0712dfcd7bd1.jpeg)
+![WhatsApp Image 2022-09-12 at 4 02 29 PM (2)](https://user-images.githubusercontent.com/100224276/189676758-7a35470a-4ab6-4a34-a96b-8c5ae7d9efae.jpeg)
+![WhatsApp Image 2022-09-12 at 4 02 29 PM (1)](https://user-images.githubusercontent.com/100224276/189676761-7e0cba79-8281-4173-9dcc-88c8d3cba2b7.jpeg)
+![WhatsApp Image 2022-09-12 at 4 02 29 PM](https://user-images.githubusercontent.com/100224276/189676767-0354758c-7f2c-4da2-92e3-808335f3326f.jpeg)
+![WhatsApp Image 2022-09-12 at 4 02 28 PM (1)](https://user-images.githubusercontent.com/100224276/189676878-75fe4247-3e0c-4baa-b777-cfc2819dde5a.jpeg)
+![WhatsApp Image 2022-09-12 at 4 02 28 PM](https://user-images.githubusercontent.com/100224276/189676901-4320c59b-e5e3-4e82-89ea-35ca3be88872.jpeg)
+![WhatsApp Image 2022-09-12 at 4 02 27 PM](https://user-images.githubusercontent.com/100224276/189676906-0552b5e9-7f1e-407d-8df5-b9529b8d929e.jpeg)
