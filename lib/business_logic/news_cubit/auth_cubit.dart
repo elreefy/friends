@@ -61,8 +61,10 @@ class AuthCubit extends Cubit<AuthState> {
   void login({required String user, required String password}) {
     emit(FireBaseLoginLoading());
   FirebaseAuth.instance
-      .signInWithEmailAndPassword(email: user, password: password)
-      .then((value) {
+      .signInWithEmailAndPassword(
+      email:    user,
+      password: password
+      ).then((value) {
     //4    print(value.user!.uid);
     //    print(value.user!.email);
         emit(FireBaseLoginSuccess(value.user!.uid));
@@ -70,8 +72,6 @@ class AuthCubit extends Cubit<AuthState> {
         emit(FireBaseLoginError(error.toString()));
         print('EROOOOOOORRRRR HERE:::'+error.toString());
       });
-    // Future.delayed(const Duration(seconds: 1), () {
-    // });
   }
   //create a sign up function that will take the user and password and phone number and create a new user in firebase
   //if the user is created then move to the next screen
@@ -128,6 +128,7 @@ class AuthCubit extends Cubit<AuthState> {
   }) {
     emit(UserCreateLoading());
     socialMediaUser = SocialMediaUser(
+      password: password,
       coverImage:firstCoverImage,
       profileImage: profileImage??'https://i.pinimg.com/736x/68/a5/aa/68a5aa104457ecac4d4136285a830e3e.jpg',
       bio: 'write biooo',
@@ -244,7 +245,7 @@ class AuthCubit extends Cubit<AuthState> {
       userCreate(
           profileImage: authResult.user!.photoURL!,
           isVerifcationSend: false,
-          password: '123456',
+          password: '12345678',
           user: authResult.user!.email!,
           uid: authResult.user!.uid,
           userName: authResult.user!.displayName
@@ -252,21 +253,23 @@ class AuthCubit extends Cubit<AuthState> {
     emit(GoogleLoginSuccess(authResult.user!.uid));
   }
 //logout of google
-  void signOut() async{
+   signOut() async{
     await googleSignIn.signOut();
     await FirebaseAuth.instance.signOut();
-    uId = null;
-    //clear uid from cashe helper
+    uId = '';
+    socialMediaUser = null;
+    friendRequests = [];
+    //delete notification list
+    notifications = [];
     CashHelper.clearString(
         key: 'uId',
     );
     currentIndex = 0;
-    // emit(FireBaseLoginInitial());
   }
   //send verification code to email address using firebase auth and firebase firestore
   void sendVerificationCode() {
     emit(SendVerificationCodeLoading());
-    FirebaseAuth.instance.currentUser!.sendEmailVerification()
+    FirebaseAuth.instance.currentUser?.sendEmailVerification()
         .then((value) {
       emit(SendVerificationCodeSuccess());
     }).catchError((error) {
@@ -334,7 +337,7 @@ class AuthCubit extends Cubit<AuthState> {
        print(' PROFILE IMAGE URLLLL '+fileURL);
        profileImageUrl = fileURL;
        socialMediaUser?.profileImage = fileURL;
-       FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).
+       FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).
        update({
           'profileImage': fileURL,
      });
@@ -371,7 +374,7 @@ class AuthCubit extends Cubit<AuthState> {
             ''+fileURL);
         coverImageUrl = fileURL;
         socialMediaUser?.coverImage = fileURL;
-        FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).
+        FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).
         update({
            'coverImage': fileURL,
     });
@@ -408,7 +411,7 @@ class AuthCubit extends Cubit<AuthState> {
           //get user data from firebase firestore
          getUserInfo(socialMediaUser!.uid!);
       emit(UpdateUserSuccess());
-      print(FirebaseAuth.instance.currentUser!.uid);
+      print(FirebaseAuth.instance.currentUser?.uid);
     }).catchError((error) {
       emit(UpdateUserError(error.toString()));
       print(error.toString());
@@ -653,7 +656,7 @@ class AuthCubit extends Cubit<AuthState> {
         .collection('posts')
         .doc(postId)
         .collection('likes')
-        .doc(FirebaseAuth.instance.currentUser!.uid).
+        .doc(FirebaseAuth.instance.currentUser?.uid).
     set(
         {
           'isLiked': true,
@@ -726,7 +729,7 @@ class AuthCubit extends Cubit<AuthState> {
         .collection('posts')
         .doc(postId)
         .collection('likes').
-         doc(FirebaseAuth.instance.currentUser!.uid).
+         doc(FirebaseAuth.instance.currentUser?.uid).
          get().then((data) {
       print('getIsLiked \n\n\n\n\n\n\n');
       print(data.data());
@@ -799,20 +802,19 @@ class AuthCubit extends Cubit<AuthState> {
   //send message from user to user
   void sendMessage({required String message,required String receiverId}) {
     print( 'RECEIVER IDDD'+receiverId);
-
     emit(SendMessageLoading());
     var messageId=Uuid().v4();
     Message messageModel = Message(
       dateTime: Timestamp.now(),
       time:FieldValue.serverTimestamp().toString(),
       receiverId: receiverId,
-      senderId: FirebaseAuth.instance.currentUser!.uid,
+      senderId: FirebaseAuth.instance.currentUser?.uid,
       message: message,
       messageId: messageId,
     );
     FirebaseFirestore.instance
         .collection('users')
-        .doc(uId)
+        .doc( FirebaseAuth.instance.currentUser?.uid)
         .collection('messages')
         .doc(receiverId)
         .collection('messages')
@@ -824,7 +826,7 @@ class AuthCubit extends Cubit<AuthState> {
         .collection('users')
         .doc(receiverId)
         .collection('messages')
-        .doc(uId)
+        .doc( FirebaseAuth.instance.currentUser?.uid)
         .collection('messages')
         .doc(messageId)
         .set(
@@ -886,7 +888,7 @@ class AuthCubit extends Cubit<AuthState> {
         'to': '${token}',
         'notification': {
           'body':  '${message}',
-          'title': '${FirebaseAuth.instance.currentUser!.email}+sent you a new message',
+          'title': '${FirebaseAuth.instance.currentUser?.email}+sent you a new message',
           'sound': 'default',
           'click_action': 'FCM_PLUGIN_ACTIVITY',
         },
@@ -910,7 +912,7 @@ class AuthCubit extends Cubit<AuthState> {
       NotificationModel notificationModel = NotificationModel(
         notificationId: notificationId,
         receiverId: receiverId,
-        senderId: FirebaseAuth.instance.currentUser!.uid,
+        senderId: FirebaseAuth.instance.currentUser?.uid,
       //  contentKey: contentKey,
        // contentId: contentId,
         senderName: socialMediaUser?.name??'unKnown',
@@ -918,11 +920,11 @@ class AuthCubit extends Cubit<AuthState> {
         serverTimeStamp: FieldValue.serverTimestamp(),
         read: false,
         dateTime: Timestamp.now(),
-        senderProfilePicture: FirebaseAuth.instance.currentUser!.photoURL,
+        senderProfilePicture: FirebaseAuth.instance.currentUser?.photoURL,
       );
       //  notificationId: notificationId,
         // receiverId: receiverId,
-      // senderId: FirebaseAuth.instance.currentUser!.uid,
+      // senderId: FirebaseAuth.instance.currentUser?.uid,
       //  message: message,
       //  time:FieldValue.serverTimestamp(),
       FirebaseFirestore.instance
@@ -1012,7 +1014,7 @@ class AuthCubit extends Cubit<AuthState> {
       var friendRequestId = Uuid().v4();
       FriendRequestModel friendRequestModel = FriendRequestModel(
         senderName: socialMediaUser?.name,
-        senderEmail: FirebaseAuth.instance.currentUser!.email,
+        senderEmail: FirebaseAuth.instance.currentUser?.email,
         senderPhotoUrl: socialMediaUser?.profileImage??firstProfileImage,
         friendRequestId: friendRequestId,
         senderId: socialMediaUser?.uid!,
@@ -1025,7 +1027,7 @@ class AuthCubit extends Cubit<AuthState> {
           .collection('users')
           .doc(receiverId)
           .collection('friendRequests')
-          .doc(socialMediaUser?.uid!)
+          .doc(FirebaseAuth.instance.currentUser?.uid)
           .set(
             friendRequestModel.toMap(),
           );
@@ -1035,20 +1037,22 @@ class AuthCubit extends Cubit<AuthState> {
     List<FriendRequestModel> friendRequests = [];
     void getAllFriendRequests() {
       emit(GetAllFriendRequestsLoading());
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(uId)
-          .collection('friendRequests')
-          .snapshots()
-          .listen((data) {
-        friendRequests = data.docs.map((doc) {
-          return FriendRequestModel.fromJson(doc.data());
-        }).toList();
-        emit(GetAllFriendRequestsSuccess());
-         print('dh # friend request \n\n\n\n\n\n\n\n\n\n\n');
-         print(friendRequests.length);
-      }).onError((error) {
-        emit(GetAllFriendRequestsError(error.toString()));
+      //delay 1 second to get all friend requests
+      Future.delayed(Duration(seconds: 0), () {
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(socialMediaUser!.uid!)
+            .collection('friendRequests')
+            .orderBy('dateTime', descending: true)
+            .snapshots()
+            .listen((data) {
+          friendRequests = data.docs.map((doc) {
+            return FriendRequestModel.fromJson(doc.data());
+          }).toList();
+          emit(GetAllFriendRequestsSuccess());
+        }).onError((error) {
+          emit(GetAllFriendRequestsError(error.toString()));
+        });
       });
     }
     //accept friend request
@@ -1056,7 +1060,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AcceptFriendRequestLoading());
       FirebaseFirestore.instance
           .collection('users')
-          .doc(uId)
+          .doc(FirebaseAuth.instance.currentUser?.uid)
           .collection('friendRequests')
           .doc(senderId)
           .update({
@@ -1066,7 +1070,7 @@ class AuthCubit extends Cubit<AuthState> {
           .collection('users')
           .doc(senderId)
           .collection('friendRequests')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .doc(FirebaseAuth.instance.currentUser?.uid)
           .update({
         'status': 'accepted',
       });
@@ -1080,7 +1084,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(GetPendingFriendRequestsCountLoading());
       FirebaseFirestore.instance
           .collection('users')
-          .doc(uId)
+          .doc(FirebaseAuth.instance.currentUser?.uid)
           .collection('friendRequests')
           .where('status', isEqualTo: 'pending')
           .snapshots()
@@ -1096,7 +1100,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(DeleteFriendRequestLoading());
       FirebaseFirestore.instance
           .collection('users')
-          .doc(uId)
+          .doc(FirebaseAuth.instance.currentUser?.uid)
           .collection('friendRequests')
           .doc(senderId)
           .delete()

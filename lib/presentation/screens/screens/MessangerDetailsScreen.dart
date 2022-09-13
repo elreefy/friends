@@ -36,7 +36,9 @@ class MessangerDetailsScreen extends StatelessWidget {
                     ),
                     Text(name,
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
+                          overflow: TextOverflow.ellipsis,
+
                         ))
                   ],
                 ),

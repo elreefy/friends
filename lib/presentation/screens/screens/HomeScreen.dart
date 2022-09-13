@@ -12,6 +12,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../../data/cashe_helper.dart';
 import '../../../shared/components/components.dart';
 import '../../../shared/constants/strings.dart';
+import '../../../shared/constants/strings.dart';
 import 'friends.dart';
 import 'messanger_screen.dart';
 import 'nofication.dart';
@@ -26,22 +27,23 @@ class HomeScreen extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return Builder(
       builder: (context) {
-
-        //get profile image from the cashe helper and save value in profileImage variable
-           AuthCubit.get(context).profileImageUrl = CashHelper.getData(key: 'profileImage')??firstProfileImage;
-        //get cover image from the cashe helper and save value in cover variable
-            AuthCubit.get(context).coverImageUrl = CashHelper.getData(key: 'coverImage')??firstCoverImage;
+        uId = CashHelper.getData(key: 'uId');
         if(AuthCubit.get(context).socialMediaUser == null) {
           AuthCubit.get(context).getUserInfo(uId!).then((value) async {
-         await AuthCubit.get(context).setAllPostsIsLiked().then((value) {
+         await AuthCubit.get(context).setAllPostsIsLiked().whenComplete(() {
               AuthCubit.get(context).getAllPosts();
+              AuthCubit.get(context).getAllNotifications();
+              AuthCubit.get(context).getAllFriendRequests();
+              AuthCubit.get(context).getPendingFriendRequestsCount();
             });
           });
         }else {
-          AuthCubit.get(context).setAllPostsIsLiked().then((value) {
-        AuthCubit.get(context).getAllPosts();
-        });
-
+              AuthCubit.get(context).setAllPostsIsLiked().then((value) {
+              AuthCubit.get(context).getAllPosts();
+              AuthCubit.get(context).getAllNotifications();
+              AuthCubit.get(context).getAllFriendRequests();
+              AuthCubit.get(context).getPendingFriendRequestsCount();
+            });
         }
 
 
@@ -89,6 +91,12 @@ class HomeScreen extends StatelessWidget {
                         icon:  Icon(Icons.search),
                         onPressed: () {
                           //navigate to search screen
+                          //print uid and socialmedia.uid
+                          print('uid: $uId');
+                          print('socialMediaUser.uid: ${socialMediaUser.uid}');
+                          //print firebaseAuth.currentUser!.uid
+                          print('firebaseAuth.currentUser!.uid: ${FirebaseAuth.instance.currentUser!.uid}');
+
 
                           Navigator.pushNamed(context, '/search');
                           //  Navigator.pushNamed(context, '/userProfile',arguments: socialMediaUser);

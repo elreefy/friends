@@ -20,6 +20,10 @@ class LoginScreen extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
     double height = mediaQuery.size.height;
     final width = mediaQuery.size.width;
+    //email controller
+    final emailController = TextEditingController();
+    //password controller
+    final passwordController = TextEditingController();
     //form key for the text fields
     final formKey = GlobalKey<FormState>();
     return BlocConsumer<AuthCubit, AuthState>(
@@ -187,10 +191,13 @@ class LoginScreen extends StatelessWidget {
                                 ),
                                 color: Colors.blue,
                                 onPressed: () {
-                                    cubit.login(
+                                    cubit.login(//'abdo@gmail.com',
+                                      //  '12345678',
                                       user: cubit.emailController.text,
                                       password: cubit.passwordController.text,
                                     );
+                                    print(cubit.emailController.text,);
+                                    print(cubit.passwordController.text,);
                                     //showToast(text: , state: ToastStates.ERROR);
                                  // cubit.sendVerificationCode();
 

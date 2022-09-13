@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../business_logic/news_cubit/auth_cubit.dart';
+import '../../../data/cashe_helper.dart';
 import '../../../shared/constants/my_colors.dart';
 class RegisterScreen extends StatelessWidget {
    RegisterScreen({Key? key}) : super(key: key);
@@ -21,6 +22,10 @@ class RegisterScreen extends StatelessWidget {
         if (state is SignUpSuccess) {
           Navigator.pushReplacementNamed(
               context, '/home');
+          //save uid to cashheper
+          //CashHelper.saveData(key: 'uid', value: state.uid);
+          CashHelper.setString(key: 'uId', value:state.uId);
+
         } else if (state is SignUpError) {
           Scaffold.of(context).showSnackBar(SnackBar(
             content: Text(state.error),
@@ -216,8 +221,11 @@ class RegisterScreen extends StatelessWidget {
                                          password:passwordController.text,
                                          userName:userNameController.text,
                                       phoneNumber:phoneNumberController.text,
-
                                     );
+                                    print(userNameController.text);
+                                    print(emailController.text);
+                                    print(passwordController.text);
+                                    print(phoneNumberController.text);
                                   },
                                   child: Text(
                                     'Sign UP',

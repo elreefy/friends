@@ -47,7 +47,6 @@ FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
     //Todo: add this to the build method in the main.dart file
      uId = await CashHelper.getData(key: 'uId');
-
     //print('fer uId : $uId');
     //  uId = '2fQtUdulZgYWBcQSnioxQuVuPED2';
     //roro uid
@@ -92,10 +91,8 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthCubit()
             ..getFriendsName()
             ..getAllUsers()
-            ..getAllNotifications()
-            ..getAllFriendRequests()
             ..getProfileImageFromCache()
-            ..getPendingFriendRequestsCount()
+           //   ..sendFriendRequest(receiverId: 'NbVeaoicSpWnzm8blLLYarSRhyX2')
         ),
 
       ],

@@ -1,42 +1,3 @@
-// // Social maedia user model class is used to store the data of the user and from json to dart object
-// import 'dart:core';
-//
-//
-// class SocialMediaUser {
-//   String? id;
-//   String? name;
-//   String? email;
-//   String? profileImage;
-//   String? coverImage;
-//   String? bio;
-//   String? website;
-//   String? phone;
-//   String? address;
-//  //constructor
-//   SocialMediaUser({
-//     this.id,
-//     this.name,
-//     this.email,
-//     this.profileImage,
-//     this.coverImage,
-//     this.bio,
-//     this.website,
-//     this.phone,
-//     this.address,
-//   });
-//   //fromJson method
-//   factory SocialMediaUser.fromJson(Map<String, dynamic> json) =>
-//       _$SocialMediaUserFromJson(json);
-//   //toJson method
-//   Map<String, dynamic> toJson() => _$SocialMediaUserToJson(this);
-//
-// }
-//
-// class _$SocialMediaUserFromJson {
-//
-// }
-
-
 class SocialMediaUser {
   SocialMediaUser({
     this.uid,
@@ -47,7 +8,7 @@ class SocialMediaUser {
     this.bio,
     this.deviceToken,
     this.phone,
-    this.address,
+    this.password,
   });
 
   SocialMediaUser.fromJson(dynamic json) {
@@ -59,7 +20,7 @@ class SocialMediaUser {
     bio = json['bio'];
     deviceToken = json['website'];
     phone = json['phone'];
-    address = json['address'];
+    password = json['password'];
   }
   String? uid;
   String? name;
@@ -69,7 +30,7 @@ class SocialMediaUser {
   String? bio;
   String? deviceToken;
   String? phone;
-  String? address;
+  String? password;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -81,7 +42,7 @@ class SocialMediaUser {
     data['bio'] = this.bio;
     data['website'] = this.deviceToken;
     data['phone'] = this.phone;
-    data['address'] = this.address;
+    data['password'] = this.password;
     return data;
   }
 

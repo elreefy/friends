@@ -54,11 +54,10 @@ buildSettings(BuildContext context) {
                 //icon button to log out
                 IconButton(
                   onPressed: () {
-                    AuthCubit.get(context).signOut();
-                    //navigate to login screen
-                    Navigator.pushReplacementNamed(
-                        context, '/loginScreen'
-                    );
+                    AuthCubit.get(context).signOut().whenComplete(() {
+                      Navigator.pushReplacementNamed(context, '/loginScreen');
+                    });
+
                   },
                   icon: Icon(
                     Icons.logout,
